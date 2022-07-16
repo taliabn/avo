@@ -1,20 +1,16 @@
 # This file contains the main code to create the ML model, load the data, 
-# https://www.youtube.com/watch?v=0B5eIE_1vpU 54:00
+
 # imports
 import matplotlib.pylab as plt
+import pandas as pd
 from sklearn.preprocessing import StandardScaler, QuantileTransformer
 from sklearn.linear_model import LogisticRegression
-# from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import OneHotEncoder, PolynomialFeatures, StandardScaler, QuantileTransformer
 from sklearn.pipeline import Pipeline
-# from sklearn.preprocessing import OneHotEncoder
-import matplotlib.pylab as plt
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.metrics import accuracy_score, mean_absolute_error
 from sklego.meta import GroupedPredictor #WARNING: check how balanced groups are bfore use
-import pandas as pd
 
 
 def load_data(file_path: str):
@@ -32,12 +28,10 @@ def load_data(file_path: str):
 	# transform data into all numerical values
 	df = pd.get_dummies(df) # one-hot encode columns "type" and "geography"
 	df["date"] = df["date"].dt.month # convert dates into numerical representation of months i.e. 1:12
-	# TODO: do date by cyclic function like sin
-	# TODO: check how year is scaled: should it just be years since start instead?
 	X = df.loc[:, df.columns!="average_price"]
 	# X = df.loc[:, df.columns!="average_price"].iloc[:,:9]
 	y = df["average_price"]
-	# add test that post processing all data in x is numeric
+	# TODO add test that post processing all data in x is numeric
 	return X, y
 
 
