@@ -25,13 +25,15 @@ def load_data(file_path: str):
 		X (pd.DataFrame): samples matrix (design matrix)
 		y (pd.Series): target values
 	"""
+	# read data into pandas dataframe
 	df = pd.read_csv(file_path, parse_dates=["date"])
+	# transform data into all numerical values
+	df = pd.get_dummies(df) # one-hot encode columns "type" and "geography"
 	df["date"] = df["date"].dt.month # convert dates into numerical representation of months i.e. 1:12
 	# TODO: do date by cyclic function like sin
 	# TODO: check how year is scaled: should it just be years since start instead?
-	# TODO: https://stackoverflow.com/questions/60153981/scikit-learn-one-hot-encoding-certain-columns-of-a-pandas-dataframe
-	# X = df.loc[:, df.columns!="average_price"]
-	X = df.loc[:, df.columns!="average_price"].iloc[:,:9]
+	X = df.loc[:, df.columns!="average_price"]
+	# X = df.loc[:, df.columns!="average_price"].iloc[:,:9]
 	y = df["average_price"]
 	# add test that post processing all data in x is numeric
 	return X, y
